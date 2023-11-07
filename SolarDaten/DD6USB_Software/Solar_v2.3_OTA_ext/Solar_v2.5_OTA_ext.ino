@@ -1,4 +1,3 @@
-
 /********************************************************************************************************
    The program reads the radio weather forecast from hamsql.com and iap-kühlungsborn and outputs it to a display
   the datas are from "hamsql.com" by OM Paul Herrman , N0NBH -> THANKS a lot for it !!
@@ -142,8 +141,22 @@ void loop(void)
   ArduinoOTA.handle();                           // occur new OTA programming ?
   if (ts.touched())                              // new page wanted ?
   {
-    page_nr == max_page ? page_nr = 0 : page_nr++ ; // rolling pages
-    handle_pages() ;
+    if(page_nr = 0)
+    {
+      TS_Point point = ts.getPoint();
+      //Button 1
+      if((point.x > 5 && point.x < 235) && (point.y > 5 && point.y < 55))
+      {
+        page_nr == max_page ? page_nr = 0 : page_nr++ ; // rolling pages
+        handle_pages() ;
+      }
+      // Ab hier die weiteren Button behandeln
+    }
+    else
+    {
+      page_nr == max_page ? page_nr = 0 : page_nr++ ; // rolling pages
+      handle_pages() ;
+    }
   }
   if (time_loop_finished())
   {
@@ -186,11 +199,26 @@ void handle_pages(void)
         handle_page3() ;  // work page 3
         break ;
       }
+    case 4 :
+      {
+        handle_page4() ;  // work page 4
+        break ;
+      }
     default: break ;
   }
 }
 //***************************************************************
+
 void handle_page0(void)            // side of the band openings
+{
+  tft.fillScreen(B_DD6USB + 3) ;
+  tft.drawRoundRect(5,5,230,50,5,BLUE);
+}
+
+//***************************************************************
+
+//***************************************************************
+void handle_page1(void)            // side of the band openings
 {
   if (!is_basic_pattern)
   {
@@ -204,7 +232,7 @@ void handle_page0(void)            // side of the band openings
 #endif
 }
 //**************************************************************
-void handle_page2(void)   // first side of the solar datas
+void handle_page3(void)   // first side of the solar datas
 {
   char * content_strings1[] = { "<solarflux>", "<aindex>", "<kindex>",
                                 "<kindexnt>", "<xray>", "<sunspots>",
@@ -234,7 +262,7 @@ void handle_page2(void)   // first side of the solar datas
   flag_color = false ;
 }
 //***************************************************************
-void handle_page3(void)   // second side of the solar datas
+void handle_page4(void)   // second side of the solar datas
 {
   char * content_strings2[] = {"<solarwind>", "<magneticfield>", "<geomagfield>",
                                "<signalnoise>", "<fof2>", "<muffactor>", "<muf>"
@@ -267,7 +295,7 @@ void handle_page3(void)   // second side of the solar datas
   flag_color = false ;
 }
 //**************************************************************
-void handle_page1(void)      // side of the MUF-table
+void handle_page2(void)      // side of the MUF-table
 {
   String km_string[8] = {" 100", " 200", " 400", " 600", " 800", "1000", "1500", "3000"} ;
   uint16_t g ;
