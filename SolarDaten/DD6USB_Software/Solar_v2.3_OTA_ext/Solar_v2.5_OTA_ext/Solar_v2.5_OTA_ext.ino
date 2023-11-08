@@ -30,21 +30,21 @@ WiFiClientSecure client ;
 #include "Adafruit_ILI9341.h"      // hardware-spi
 
 //!!!!!write this in program direct!!!!!!
-//char* ssid = "WLAN-SSID-name...." ; // your SSID (for instance: "Area51")
-//char* passw = "passw...1234567.." ; // your password (for instance "11223344")
+char* ssid = "FRITZ!Box WLAN 32" ; // your SSID (for instance: "Area51")
+char* passw = "56342737684568017061" ; // your password (for instance "11223344")
 
 #include <gfxfont.h>
 //!!!!!!change your own path to these libraries !!!!!
-#include <disk:\path\FreeMono9pt7b.h>
-#include <disk:\path\FreeSans12pt7b.h>
-#include <disk:\path\FreeSans9pt7b.h>
+#include <C:\Program Files (x86)\Arduino\libraries\Adafruit_GFX-Library\Fonts\FreeMono9pt7b.h>
+#include <C:\Program Files (x86)\Arduino\libraries\Adafruit_GFX-Library\Fonts\FreeSans12pt7b.h>
+#include <C:\Program Files (x86)\Arduino\libraries\Adafruit_GFX-Library\Fonts\FreeSans9pt7b.h>
 
 // Pins for the ILI9341 and ESP8266 (D1 mini)
-#define TFT_DC    D2
-#define TFT_CS    D1
-#define TFT_LED   D8
-#define TOUCH_CS  D3
-#define TOUCH_IRQ D4
+#define TFT_DC    D4
+#define TFT_CS    D8
+//#define TFT_LED   D8
+#define TOUCH_CS  D2
+#define TOUCH_IRQ D1
 
 XPT2046_Touchscreen ts(TOUCH_CS, TOUCH_IRQ) ;
 
@@ -75,7 +75,7 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC) ; // instance for the sc
 #define HOST "hamqsl.com"             // source page in www
 #define HOST1 "www.ionosonde.iap-kborn.de" // another source page in www
 
-#define max_page 3                    // only 4 pages, no more (at this time)[p0->p3]
+#define max_page 4                    // only 4 pages, no more (at this time)[p0->p3]
 
 
 //============>>   here the global variables: <<=============
@@ -96,8 +96,8 @@ String content_strings3[10] ;         // hold the iap-datas
 void setup(void)
 {
   tft.begin();                  // initialize the screen
-  pinMode(TFT_LED, OUTPUT) ;    // Pin for Backlight
-  digitalWrite(TFT_LED, HIGH) ; // switch Backlight on
+  //pinMode(TFT_LED, OUTPUT) ;    // Pin for Backlight
+  //digitalWrite(TFT_LED, HIGH) ; // switch Backlight on
   tft.setRotation(0) ;          // orientation of the screen
   Serial.begin(115200) ;        // initialize the serial interface
   tft.fillScreen(BLACK) ;       // clear the screen
@@ -141,16 +141,75 @@ void loop(void)
   ArduinoOTA.handle();                           // occur new OTA programming ?
   if (ts.touched())                              // new page wanted ?
   {
-    if(page_nr = 0)
+    if(page_nr == 0)
     {
       TS_Point point = ts.getPoint();
-      //Button 1
-      if((point.x > 5 && point.x < 235) && (point.y > 5 && point.y < 55))
+      //Serial.print("X: ") ;
+      //Serial.println(point.x) ;
+      //Serial.print("Y: ") ;
+      //Serial.println(point.y) ;
+      
+      // Wetter Button
+      if((point.x > 420 && point.x < 3600) && (point.y > 350 && point.y < 860))
       {
         page_nr == max_page ? page_nr = 0 : page_nr++ ; // rolling pages
         handle_pages() ;
       }
-      // Ab hier die weiteren Button behandeln
+      // B1
+      if((point.x > 424 && point.x < 1839) && (point.y > 884 && point.y < 1300))
+      {
+        Serial.println("B1");
+        delay(250);
+      }
+
+      // B2
+      if((point.x > 2230 && point.x < 3570) && (point.y > 980 && point.y < 1401))
+      {
+        Serial.println("B2");
+        delay(250);
+      }
+
+      // B3
+      if((point.x > 448 && point.x < 1818) && (point.y > 1583 && point.y < 1948))
+      {
+        Serial.println("B3");
+        delay(250);
+      }
+
+      // B4
+      if((point.x > 2205 && point.x < 3642) && (point.y > 1584 && point.y < 1983))
+      {
+        Serial.println("B4");
+        delay(250);
+      }
+
+      // B5
+      if((point.x > 430 && point.x < 2339) && (point.y > 2223 && point.y < 2639))
+      {
+        Serial.println("B5");
+        delay(250);
+      }
+
+      // B6
+      if((point.x > 2228 && point.x < 3593) && (point.y > 2198 && point.y < 2638))
+      {
+        Serial.println("B6");
+        delay(250);
+      }
+
+      // B7
+      if((point.x > 458 && point.x < 1839) && (point.y > 2825 && point.y < 3193))
+      {
+        Serial.println("B7");
+        delay(250);
+      }
+
+      // B8
+      if((point.x > 2299 && point.x < 3539) && (point.y >2845 && point.y < 3238))
+      {
+        Serial.println("B9");
+        delay(250);
+      }
     }
     else
     {
@@ -212,7 +271,61 @@ void handle_pages(void)
 void handle_page0(void)            // side of the band openings
 {
   tft.fillScreen(B_DD6USB + 3) ;
+  tft.setFont(&FreeSans12pt7b) ;
+  
+  // Wetter
   tft.drawRoundRect(5,5,230,50,5,BLUE);
+  tft.setTextColor(YELLOW) ;
+  tft.setCursor(84, 38) ;
+  tft.print("Wetter") ;
+
+  // B1
+  tft.drawRoundRect(5,60,112,50,5,BLUE);
+  tft.setTextColor(YELLOW) ;
+  tft.setCursor(25, 93) ;
+  tft.print("SDR++") ;
+
+  // B2
+  tft.drawRoundRect(123,60,112,50,5,BLUE);
+  tft.setTextColor(YELLOW) ;
+  tft.setCursor(148, 93) ;
+  tft.print("FlDigi") ;
+
+  // B3
+  tft.drawRoundRect(5,115,112,50,5,BLUE);
+  tft.setTextColor(YELLOW) ;
+  tft.setCursor(45, 148) ;
+  tft.print("RX") ;
+
+  // B4
+  tft.drawRoundRect(123,115,112,50,5,BLUE);
+  tft.setTextColor(YELLOW) ;
+  tft.setCursor(148, 148) ;
+  tft.print("Menu") ;
+
+  // B5
+  tft.drawRoundRect(5,170,112,50,5,BLUE);
+  tft.setTextColor(YELLOW) ;
+  tft.setCursor(45, 203) ;
+  tft.print("CW") ;
+
+  // B6
+  tft.drawRoundRect(123,170,112,50,5,BLUE);
+  tft.setTextColor(YELLOW) ;
+  tft.setCursor(155, 203) ;
+  tft.print("LSB") ;
+
+  // B5
+  tft.drawRoundRect(5,225,112,50,5,BLUE);
+  tft.setTextColor(YELLOW) ;
+  tft.setCursor(45, 258) ;
+  tft.print("AM") ;
+
+  // B6
+  tft.drawRoundRect(123,225,112,50,5,BLUE);
+  tft.setTextColor(YELLOW) ;
+  tft.setCursor(163, 258) ;
+  tft.print("Off") ;
 }
 
 //***************************************************************
