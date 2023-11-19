@@ -8,6 +8,11 @@
   "OTA"  means: the D1 mini can be programmed via WLAN - it does not have to be connected to a computer.
   how to program: in Arduino-IDE you find -> "Tools" -> "Ports" the Adress from "D1 mini for Solardat" and his local IP.
   Select it and download - thats all folks ! But attention! in OTA-mode the serial monitor does NOT work !!!
+********************************************************************************************************
+
+UPDATE von StefanKDS
+
+I added some Buttons for my SDRReceiver to control elements on the Display of the receiver. 
 ********************************************************************************************************/
 
 String V_String = "ver 2.5ext edited 5/1/2021 by DD6USB" ;
