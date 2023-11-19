@@ -3,6 +3,8 @@
 I build my own SDR-Receiver based on a RaspberryPi 4 with 7"-Display, RTL-SDR V3 Stick, SecondDisplay with ESP 8266 and two Rotary Encoders for volume and frequency selection.
 The SDR Software is SDRPlusPlus with a selfmade plugin "Logbook" to log stations I heard.
 
+A more detailed description will follow in the next days....
+
 # Some impressions
 
 ![plot](https://github.com/StefanKDS/SDRReceiver/blob/main/Pictures/IMG20231119083627.jpg?raw=true)
